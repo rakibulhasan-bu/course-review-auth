@@ -7,4 +7,11 @@ const logInValidation = z.object({
   }),
 });
 
-export const authValidations = { logInValidation };
+const changePasswordValidation = z.object({
+  body: z.object({
+    currentPassword: z.string().min(6),
+    newPassword: z.string().min(6),
+  }),
+});
+
+export const authValidations = { logInValidation, changePasswordValidation };

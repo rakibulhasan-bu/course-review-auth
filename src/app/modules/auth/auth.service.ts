@@ -1,7 +1,7 @@
 import config from "../../config";
 import AppError from "../../error/AppError";
 import User from "../user/user.model";
-import { TLogIn } from "./auth.interface";
+import { TChangePassword, TLogIn } from "./auth.interface";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -41,4 +41,19 @@ const loginUserIntoDB = async (payload: TLogIn) => {
   };
 };
 
-export const authServices = { loginUserIntoDB };
+const changePasswordIntoDB = async (payload: TChangePassword, id: string) => {
+  const hashPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.bcrypt_salt),
+  );
+
+  return await User.findByIdAndUpdate(
+    id,
+    {
+      password: hashPassword,
+    },
+    { new: true },
+  );
+};
+
+export const authServices = { loginUserIntoDB, changePasswordIntoDB };
