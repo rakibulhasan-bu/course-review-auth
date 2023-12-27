@@ -1,6 +1,10 @@
+import USER_ROLE from "./user.const";
+
+export type TUserRole = keyof typeof USER_ROLE;
+
 export interface TUser {
   username: string;
   email: string;
   password: string;
-  role: "user" | "admin";
+  role: TUserRole;
 }
