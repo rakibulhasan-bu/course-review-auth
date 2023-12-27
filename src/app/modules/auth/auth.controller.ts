@@ -4,7 +4,7 @@ import { authServices } from "./auth.service";
 import sendRes from "../../utils/sendResponse";
 
 const loginUser = CatchAsyncError(async (req: Request, res: Response) => {
-  const result = authServices.loginUserIntoDB(req.body);
+  const result = await authServices.loginUserIntoDB(req.body);
 
   sendRes(res, {
     success: true,

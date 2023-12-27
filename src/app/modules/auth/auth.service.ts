@@ -7,7 +7,9 @@ import jwt from "jsonwebtoken";
 
 const loginUserIntoDB = async (payload: TLogIn) => {
   //checking if the user is exists
-  const user = await User.findOne({ username: payload.username });
+  const user = await User.findOne({ username: payload.username }).select(
+    "+password",
+  );
   if (!user) {
     throw new AppError(404, `${payload.username} user not found!`);
   }
