@@ -15,7 +15,7 @@ app.use("/api", router);
 
 // landing or testing route
 app.get("/", (_req: Request, res: Response) => {
-  res.send(`Course Review server is working perfectly`);
+  res.send(`Course Review Auth server is working perfectly`);
 });
 
 // unknown route handling
