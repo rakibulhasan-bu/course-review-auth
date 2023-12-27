@@ -25,6 +25,7 @@ courseRouter.get("/course/best", courseControllers.getBestCourse);
 
 courseRouter.put(
   "/courses/:courseId",
+  auth(USER_ROLE.admin),
   validateRequest(courseValidation.updateCourseValidationSchema),
   courseControllers.updateCourse,
 );

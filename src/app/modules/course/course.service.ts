@@ -98,6 +98,9 @@ const updateCourse = async (id: string, payload: Partial<TCourse>) => {
   return await Course.findByIdAndUpdate(id, modifiedData, {
     new: true,
     runValidators: true,
+  }).populate({
+    path: "createdBy",
+    select: "_id username email role",
   });
 };
 

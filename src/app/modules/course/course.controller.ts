@@ -65,7 +65,13 @@ const getBestCourse = CatchAsyncError(async (req: Request, res: Response) => {
 const updateCourse = CatchAsyncError(async (req: Request, res: Response) => {
   const { courseId } = req.params;
 
+  const course = await courseServices.getSingleCourseById(courseId);
+  if (!course) {
+    throw new AppError(404, `${courseId} is not a valid course id!`);
+  }
+
   const result = await courseServices.updateCourse(courseId, req.body);
+
   res.status(200).json({
     success: true,
     statusCode: 200,
