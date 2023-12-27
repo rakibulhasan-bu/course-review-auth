@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const categoryValidationSchema = z.object({
   body: z.object({
-    name: z.string().trim().min(3),
+    name: z.string().trim().min(2),
   }),
 });
 
