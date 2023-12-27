@@ -73,7 +73,7 @@ const getAllCourse = async (query: Record<string, unknown>) => {
   };
 };
 
-const getSingleCourse = async (courseId: string) => {
+const getSingleCourseById = async (courseId: string) => {
   return await Course.findById(courseId);
 };
 
@@ -101,6 +101,6 @@ const updateCourse = async (id: string, payload: Partial<TCourse>) => {
 export const courseServices = {
   createCourse,
   getAllCourse,
-  getSingleCourse,
+  getSingleCourseById,
   updateCourse,
 };

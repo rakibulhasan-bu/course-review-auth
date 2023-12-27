@@ -2,7 +2,10 @@ import { TReview } from "./review.interface";
 import Review from "./review.model";
 
 const createReviewIntoDB = async (reviewData: TReview) => {
-  return await Review.create(reviewData);
+  return (await Review.create(reviewData)).populate({
+    path: "createdBy",
+    select: "_id username email role",
+  });
 };
 
 const highestReviews = async () => {

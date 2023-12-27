@@ -30,7 +30,7 @@ const getAllCourse = CatchAsyncError(async (req: Request, res: Response) => {
 const getCourseWithReview = CatchAsyncError(
   async (req: Request, res: Response) => {
     const { courseId } = req.params;
-    const course = await courseServices.getSingleCourse(courseId);
+    const course = await courseServices.getSingleCourseById(courseId);
     const reviews = await reviewService.getReviewByCourseID(courseId);
     res.status(200).json({
       success: true,
@@ -43,7 +43,7 @@ const getCourseWithReview = CatchAsyncError(
 
 const getBestCourse = CatchAsyncError(async (req: Request, res: Response) => {
   const review = await reviewService.highestReviews();
-  const course = await courseServices.getSingleCourse(review?._id);
+  const course = await courseServices.getSingleCourseById(review?._id);
   res.status(200).json({
     success: true,
     statusCode: 200,

@@ -5,6 +5,7 @@ import { categoryServices } from "./category.service";
 const createCategory = CatchAsyncError(async (req: Request, res: Response) => {
   const category = req.body;
   category.createdBy = req.user._id;
+
   const result = await categoryServices.createCategoryIntoDB(category);
   res.status(201).json({
     success: true,
