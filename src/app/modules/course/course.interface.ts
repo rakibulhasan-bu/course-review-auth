@@ -20,4 +20,5 @@ export interface TCourse {
     level: string;
     description: string;
   };
+  createdBy: Schema.Types.ObjectId;
 }

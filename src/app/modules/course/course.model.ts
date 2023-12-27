@@ -25,6 +25,7 @@ const CourseSchema = new Schema<TCourse>(
     },
     categoryId: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: "Category",
     },
     price: {
@@ -62,6 +63,10 @@ const CourseSchema = new Schema<TCourse>(
         type: String,
         required: true,
       },
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true },

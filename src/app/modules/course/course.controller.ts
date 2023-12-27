@@ -5,6 +5,7 @@ import { reviewService } from "../review/review.services";
 
 const createCourse = CatchAsyncError(async (req: Request, res: Response) => {
   const course = req.body;
+  course.createdBy = req.user._id;
   const result = await courseServices.createCourse(course);
 
   res.status(201).json({

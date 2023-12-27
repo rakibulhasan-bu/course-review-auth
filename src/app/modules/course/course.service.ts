@@ -54,6 +54,7 @@ const getAllCourse = async (query: Record<string, unknown>) => {
   }
   const skip = (Number(page) - 1) * Number(limit);
   const result = await Course.find(searchOptions)
+    .populate("createdBy")
     .sort(sortOptions)
     .skip(skip)
     .limit(Number(limit))
@@ -66,7 +67,9 @@ const getAllCourse = async (query: Record<string, unknown>) => {
       limit,
       total,
     },
-    data: result,
+    data: {
+      courses: result,
+    },
   };
 };
 
