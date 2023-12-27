@@ -29,8 +29,14 @@ const loginUserIntoDB = async (payload: TLogIn) => {
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: "1d",
   });
+
   return {
-    user,
+    user: {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    },
     token: accessToken,
   };
 };

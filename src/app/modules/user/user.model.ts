@@ -27,7 +27,7 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 //using document pre middleware

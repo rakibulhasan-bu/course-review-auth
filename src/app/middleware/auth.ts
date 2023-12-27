@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import { AnyZodObject } from "zod";
 import { CatchAsyncError } from "../utils/CatchAsyncError";
+import AppError from "../error/AppError";
 
-const validateRequest = (schema: AnyZodObject) => {
+const auth = () => {
   return CatchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
-      await schema.parseAsync({
-        body: req.body,
-      });
+      const token = req.headers.authorization;
+      if (!token) {
+        throw new AppError(401, "You are not Authorized!");
+      }
       next();
     },
   );
 };
 
-export default validateRequest;
+export default auth;
