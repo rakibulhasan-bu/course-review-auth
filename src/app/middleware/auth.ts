@@ -4,6 +4,7 @@ import AppError from "../error/AppError";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config";
 import { TUserRole } from "../modules/user/user.interface";
+import User from "../modules/user/user.model";
 
 const auth = (...roles: TUserRole[]) => {
   return CatchAsyncError(
@@ -15,24 +16,22 @@ const auth = (...roles: TUserRole[]) => {
       }
 
       //check if the token is valid
-      jwt.verify(
+      const decoded = jwt.verify(
         token,
         config.jwt_access_secret as string,
-        function (err, decoded) {
-          if (err) {
-            throw new AppError(401, "You are not Authorized!");
-          }
+      ) as JwtPayload;
 
-          //checking required role are write or wrong
-          const role = (decoded as JwtPayload).role;
-          if (roles && !roles.includes(role)) {
-            throw new AppError(401, "You are not Authorized!");
-          }
+      const user = await User.findById(decoded?._id);
+      if (!user) {
+        throw new AppError(400, `Your provided Token is not valid user!`);
+      }
+      //checking required role are write or wrong
+      if (roles && !roles.includes(decoded.role)) {
+        throw new AppError(401, "You are not Authorized!");
+      }
 
-          req.user = decoded as JwtPayload;
-          next();
-        },
-      );
+      req.user = decoded as JwtPayload;
+      next();
     },
   );
 };

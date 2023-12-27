@@ -6,5 +6,9 @@ export interface TUser {
   username: string;
   email: string;
   password: string;
+  changePassword: {
+    oldPassword: string;
+    moreOldPassword: string;
+  };
   role: TUserRole;
 }

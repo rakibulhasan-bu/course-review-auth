@@ -15,10 +15,7 @@ const loginUser = CatchAsyncError(async (req: Request, res: Response) => {
 });
 
 const changePassword = CatchAsyncError(async (req: Request, res: Response) => {
-  const result = await authServices.changePasswordIntoDB(
-    req.body,
-    req.user?._id,
-  );
+  const result = await authServices.changePasswordIntoDB(req.body, req.user);
 
   sendRes(res, {
     success: true,

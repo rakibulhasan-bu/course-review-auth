@@ -18,7 +18,19 @@ const userSchema = new Schema<TUser>(
     password: {
       type: String,
       required: true,
-      select: 0,
+      select: false,
+    },
+    changePassword: {
+      type: Object,
+      select: false,
+      oldPassword: {
+        type: String,
+        select: false,
+      },
+      moreOldPassword: {
+        type: String,
+        select: false,
+      },
     },
     role: {
       type: String,
