@@ -23,7 +23,7 @@ const auth = (...roles: TUserRole[]) => {
 
       const user = await User.findById(decoded?._id);
       if (!user) {
-        throw new AppError(400, `Your provided Token is not valid user!`);
+        throw new AppError(401, `Your provided Token is not valid user!`);
       }
       //checking required role are write or wrong
       if (roles && !roles.includes(decoded.role)) {

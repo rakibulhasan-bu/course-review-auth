@@ -19,8 +19,21 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       message: "Something went wrong!",
     },
   ];
+  let stack = err?.stack;
 
-  if (err instanceof ZodError) {
+  if (err?.statusCode === 401) {
+    message = "Unauthorized Access";
+    errorMessage =
+      "You do not have the necessary permissions to access this resource.";
+    errorDetails = null;
+    stack = null;
+  } else if (err?.name === "JsonWebTokenError") {
+    message = "Unauthorized Access";
+    errorMessage =
+      "You do not have the necessary permissions to access this resource.";
+    errorDetails = null;
+    stack = null;
+  } else if (err instanceof ZodError) {
     const simpleError = handleZodError(err);
     statusCode = simpleError.statusCode;
     message = simpleError.message;
@@ -51,7 +64,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     message,
     errorMessage,
     errorDetails,
-    stack: err?.stack,
+    stack: stack,
   });
 };
 

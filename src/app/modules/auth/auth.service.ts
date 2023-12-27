@@ -49,11 +49,11 @@ const changePasswordIntoDB = async (
     "+password +changePassword",
   );
   if (!user) {
-    throw new AppError(400, `Your provided Token is not valid user!`);
+    throw new AppError(401, `Your provided Token is not valid user!`);
   }
 
   if (payload.currentPassword === payload.newPassword) {
-    throw new AppError(400, `Your current password and new password are same!`);
+    return null;
   }
 
   //checking if the current password is matched
@@ -62,10 +62,7 @@ const changePasswordIntoDB = async (
     user.password,
   );
   if (!isPasswordMatched) {
-    throw new AppError(
-      400,
-      `${payload.currentPassword} is not your current password!`,
-    );
+    return null;
   }
 
   const isMatchWithOldPassword = await bcrypt.compare(
@@ -78,10 +75,7 @@ const changePasswordIntoDB = async (
   );
 
   if (isMatchWithOldPassword || isMatchWithMoreOldPassword) {
-    throw new AppError(
-      400,
-      `Your provided new Password is match with last two password!`,
-    );
+    return null;
   }
 
   const hashPassword = await bcrypt.hash(
@@ -93,7 +87,7 @@ const changePasswordIntoDB = async (
     Number(config.bcrypt_salt),
   );
 
-  const result = await User.findByIdAndUpdate(
+  return await User.findByIdAndUpdate(
     userData?._id,
     {
       password: hashPassword,
@@ -104,11 +98,6 @@ const changePasswordIntoDB = async (
     },
     { new: true },
   );
-
-  if (!result) {
-    throw new AppError(400, `Password update unsuccessful!`);
-  }
-  return result;
 };
 
 export const authServices = { loginUserIntoDB, changePasswordIntoDB };
