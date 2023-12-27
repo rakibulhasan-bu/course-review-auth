@@ -74,7 +74,10 @@ const getAllCourse = async (query: Record<string, unknown>) => {
 };
 
 const getSingleCourseById = async (courseId: string) => {
-  return await Course.findById(courseId);
+  return await Course.findById(courseId).populate({
+    path: "createdBy",
+    select: "_id username email role",
+  });
 };
 
 const updateCourse = async (id: string, payload: Partial<TCourse>) => {

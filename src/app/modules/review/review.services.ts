@@ -24,7 +24,10 @@ const highestReviews = async () => {
 };
 
 const getReviewByCourseID = async (courseId: string) => {
-  return await Review.find({ courseId });
+  return await Review.find({ courseId }).populate({
+    path: "createdBy",
+    select: "_id username email role",
+  });
 };
 export const reviewService = {
   createReviewIntoDB,

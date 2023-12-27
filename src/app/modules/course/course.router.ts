@@ -18,7 +18,7 @@ courseRouter.get("/courses", courseControllers.getAllCourse);
 
 courseRouter.get(
   "/courses/:courseId/reviews",
-  courseControllers.getCourseWithReview,
+  courseControllers.getCourseByIdWithReviews,
 );
 
 courseRouter.get("/course/best", courseControllers.getBestCourse);

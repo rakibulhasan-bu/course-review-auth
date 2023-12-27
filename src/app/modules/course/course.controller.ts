@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CatchAsyncError } from "../../utils/CatchAsyncError";
 import { courseServices } from "./course.service";
 import { reviewService } from "../review/review.services";
+import AppError from "../../error/AppError";
 
 const createCourse = CatchAsyncError(async (req: Request, res: Response) => {
   const course = req.body;
@@ -27,15 +28,20 @@ const getAllCourse = CatchAsyncError(async (req: Request, res: Response) => {
   });
 });
 
-const getCourseWithReview = CatchAsyncError(
+const getCourseByIdWithReviews = CatchAsyncError(
   async (req: Request, res: Response) => {
     const { courseId } = req.params;
+
     const course = await courseServices.getSingleCourseById(courseId);
+    if (!course) {
+      throw new AppError(404, `${courseId} is not a valid course id!`);
+    }
+
     const reviews = await reviewService.getReviewByCourseID(courseId);
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "Course and Reviews retrieved successfully",
+      message: "Course with reviews retrieved successfully",
       data: { course, reviews },
     });
   },
@@ -71,7 +77,7 @@ const updateCourse = CatchAsyncError(async (req: Request, res: Response) => {
 export const courseControllers = {
   createCourse,
   getAllCourse,
-  getCourseWithReview,
+  getCourseByIdWithReviews,
   getBestCourse,
   updateCourse,
 };
