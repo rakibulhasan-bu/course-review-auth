@@ -1,7 +1,13 @@
+import AppError from "../../error/AppError";
+import Category from "../category/category.model";
 import { TCourse } from "./course.interface";
 import Course from "./course.model";
 
 const createCourse = async (course: TCourse) => {
+  const isCategoryIdValid = await Category.findById(course.categoryId);
+  if (!isCategoryIdValid) {
+    throw new AppError(400, `${course.categoryId} is not a valid Category ID!`);
+  }
   return await Course.create(course);
 };
 

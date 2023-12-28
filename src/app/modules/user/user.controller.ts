@@ -8,7 +8,12 @@ const registerUser = CatchAsyncError(async (req: Request, res: Response) => {
   const result = await userServices.registerUserIntoDB(userData);
 
   //remove password from result
-  const removePassResult = { ...result.toObject(), password: undefined };
+  const removePassResult = {
+    ...result.toObject(),
+    password: undefined,
+    oldPassword: undefined,
+    moreOldPassword: undefined,
+  };
 
   sendRes(res, {
     success: true,

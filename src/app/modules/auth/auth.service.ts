@@ -46,7 +46,7 @@ const changePasswordIntoDB = async (
   userData: JwtPayload,
 ) => {
   const user = await User.findById(userData?._id).select(
-    "+password +changePassword",
+    "+password +oldPassword +moreOldPassword",
   );
   if (!user) {
     throw new AppError(401, `Your provided Token is not valid user!`);
@@ -67,11 +67,11 @@ const changePasswordIntoDB = async (
 
   const isMatchWithOldPassword = await bcrypt.compare(
     payload.newPassword,
-    user.changePassword.oldPassword,
+    user?.oldPassword,
   );
   const isMatchWithMoreOldPassword = await bcrypt.compare(
     payload.newPassword,
-    user.changePassword.moreOldPassword,
+    user?.moreOldPassword,
   );
 
   if (isMatchWithOldPassword || isMatchWithMoreOldPassword) {
@@ -82,19 +82,13 @@ const changePasswordIntoDB = async (
     payload.newPassword,
     Number(config.bcrypt_salt),
   );
-  const hashOldPassword = await bcrypt.hash(
-    payload?.currentPassword,
-    Number(config.bcrypt_salt),
-  );
 
   return await User.findByIdAndUpdate(
     userData?._id,
     {
       password: hashPassword,
-      changePassword: {
-        oldPassword: hashOldPassword,
-        moreOldPassword: user?.changePassword?.oldPassword,
-      },
+      oldPassword: user?.password,
+      moreOldPassword: user?.oldPassword,
     },
     { new: true },
   );

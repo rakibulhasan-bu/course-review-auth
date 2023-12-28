@@ -20,17 +20,13 @@ const userSchema = new Schema<TUser>(
       required: true,
       select: false,
     },
-    changePassword: {
-      type: Object,
+    oldPassword: {
+      type: String,
       select: false,
-      oldPassword: {
-        type: String,
-        select: false,
-      },
-      moreOldPassword: {
-        type: String,
-        select: false,
-      },
+    },
+    moreOldPassword: {
+      type: String,
+      select: false,
     },
     role: {
       type: String,
@@ -45,6 +41,8 @@ const userSchema = new Schema<TUser>(
 //using document pre middleware
 userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt));
+  this.oldPassword = this.password;
+  this.moreOldPassword = this.password;
 });
 
 const User = model("User", userSchema);

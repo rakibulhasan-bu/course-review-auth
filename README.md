@@ -1,51 +1,65 @@
 # Course-crud
 
-Server Live Link
+Course review auth app server Live Link
 
-### https://course-review-ochre.vercel.app/
+### https://course-review-auth-liart.vercel.app/
 
 ## Run the server application locally
 
-If you want to run the server locally on your computer, firstly clone this project and then run `npm install` and then run the command `npm run build` to convert the TypeScript code to JavaScript code. And start the server with `npm run start:dev` command.
+If you want to run the server locally on your computer, firstly clone this project, go to the right path and open to the terminal then run `npm install` and then run the command `npm run build` to convert the TypeScript code to JavaScript code. And start the server with `npm run start:dev` command.
 
 ## Server Documentation
 
-- This server is created to manage users and their orders.
+- This server is created to manage users and create courses.
 - New users are created here, and all users in the database can be seen.
-- Also, any user can be retrieved with a specific ID.
-- In this, the user can be deleted and updated.
-- Here you can add the orders of that user with the ID of a user, view the orders and see the total price.
+- Users can login with their username and password and take a token from the server.
+- Without token user cannot access many route that is protected.
+- Admin can create a category provide token and get all category are open for all users.
+- Admin can create a course and update the course, update course is dynamically working.
+- Users can create a review not by admin and all user are see the best course and specific course with reviews.
 
 ## Server API
 
-### 1. Create a new Course
+### 1. User Registration
 
-Endpoint: POST `/api/course`
+Endpoint: POST `/api/auth/register`
 
-### 2. Retrieve a list of all users
+### 2. User Login
 
-Endpoint: GET `/api/course`
+Endpoint: POST `/api/auth/login`
 
-### 3. Get Course by ID with Reviews\*\*
+### 3. Change Password
 
-Endpoint: GET `/api/courses/:courseId/reviews`
+Endpoint: POST `/api/auth/change-password`
 
-### 4. Update Course information
+### 4. Create a Course (Only Admin can do this)\*\*
 
-Endpoint: PUT `/api/courses/:courseId`
+Endpoint: POST `/api/courses`
 
-### 5. Create a categories
+### 5. Get Paginated and Filtered Courses.
+
+Endpoint: GET `/api/courses`
+
+### 6. Create a Category (Only Admin can do this)\*\*
 
 Endpoint: POST `/api/categories`
 
-### 6. Add New Product of Order in user
+### 7. Get All Categories\*\*
 
 Endpoint: GET `/api/categories`
 
-### 7. Create a reviews
+### 8. Create a Review (Only the user can do this)\*\*
 
 Endpoint: POST `/api/reviews`
 
-### 8. Get the Best Course Based on Average Review (Rating)
+### 9. Update a Course (Only Admin can do this)\*\*
+
+Endpoint: PUT `/api/courses/:courseId`
+
+### 10. Get Course by ID with Reviews\*\*
+
+Endpoint: GET `/api/courses/:courseId/reviews`
+
+### 11. Get the Best Course Based on Average Review (Rating)\*\*
 
 Endpoint: GET `/api/course/best`
