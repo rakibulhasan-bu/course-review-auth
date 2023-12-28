@@ -1,8 +1,12 @@
-# Course-crud
+<h2 align="center"> Course review auth server</h2>
 
-Course review auth app server Live Link
+## Course review auth app server Live Link
 
 ### https://course-review-auth-liart.vercel.app/
+
+## Course review auth app server Postman Documentation link
+
+### https://documenter.getpostman.com/view/19464921/2s9YkuYdZj
 
 ## Run the server application locally
 
